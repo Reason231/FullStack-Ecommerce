@@ -79,7 +79,7 @@ function ShoppingHome() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, [featureImageList]);
@@ -125,7 +125,7 @@ function ShoppingHome() {
     <div className="flex flex-col min-h-screen">
       {/* Banner */}
       <div
-        className="relative w-full aspect-[211/35] overflow-hidden
+        className="relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[32/9] lg:aspect-[211/35] overflow-hidden
             "
       >
         {/* Day 24 */}
@@ -136,7 +136,7 @@ function ShoppingHome() {
                 key={index}
                 className={`${
                   index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-full aspect-[211/35] object-cover transition-opacity duration-1000`}
+                } absolute top-0 left-0 w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[32/9] lg:aspect-[211/35] object-cover transition-opacity duration-1000`}
               ></img>
             ))
           : null}
@@ -169,13 +169,14 @@ function ShoppingHome() {
         </Button>
       </div>
 
+      
       {/* Shop By Category Option  */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by Category
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {categoriesWithIcon.map((categoryItem) => (
               // To navigate the each category, to their filter sections
               <Card
@@ -185,7 +186,7 @@ function ShoppingHome() {
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
+                  <categoryItem.icon className="size-8 md:size-12 lg:size-12 mb-2 text-primary" />
                   <span className="font-bold">{categoryItem.label}</span>
                 </CardContent>
               </Card>
@@ -195,17 +196,17 @@ function ShoppingHome() {
       </section>
 
       {/* Shop By Brand Option  */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-50 relative bottom-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {brandsWithIcon.map((brandItem) => (
               <Card
                 onClick={() => handleNavigateToListingPage(brandItem, "brand")}
                 className="cursor-pointer hover:shadow-lg transition-shadow"
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
+                  <brandItem.icon className="size-8 md:size-12 lg:size-12 mb-2 text-primary" />
                   <span className="font-bold">{brandItem.label}</span>
                 </CardContent>
               </Card>
@@ -215,12 +216,12 @@ function ShoppingHome() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-12">
+      <section className="py-12 relative bottom-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
             Feature Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
