@@ -81,6 +81,12 @@ f. Click on "Deploy Static Site"
 
 - Code Part
 1. Go to "controllers" => "auth" => "auth.controller.js" and go to "res.cookie"
-
-- Tut video => 18:00 
+2. Go the "frontend" => "store" => "auth-slice" => index.js
+3. Go to "App.jsx" and check for "dispatch(checkAuth())"
+4. Go to "header.jsx" of shopping-view and admin-view to implement the delete token after logout
+5. Push the code to the github
+6. Go to the homePage of render => https://dashboard.render.com/
+7. Click on your website Name which has the RUNTIME as "Static"
+8. Click on "Events" and click on "Manual Deploy"
+- Tut video => 18:00 - 23:00
 

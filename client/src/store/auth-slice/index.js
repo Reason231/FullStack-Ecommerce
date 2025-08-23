@@ -13,13 +13,12 @@ const initialState = {
   isAuthenticated: false,
   isLoading: true,
   user: null,
+  token: null, // Here is code changed
 };
 
 export const registerUser = createAsyncThunk(
   "/auth/register",
-  // We will get the formData from register.jsx
   async (formData) => {
-    // Connecting the backend as we have written in the server.js
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/auth/register`,
       formData,
@@ -29,42 +28,36 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk(
-  "/auth/login",
-  // We will get the formData from register.jsx
-  async (formData) => {
-    // Connecting the backend
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/login`,
-      formData,
-      { withCredentials: true }
-    );
-    return response.data;
-  }
-);
+export const loginUser = createAsyncThunk("/auth/login", async (formData) => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/auth/login`,
+    formData,
+    { withCredentials: true }
+  );
+  return response.data;
+});
 
-export const logoutUser = createAsyncThunk(
-  "/auth/logout",
-  // We will get the formData from register.jsx
-  async (formData) => {
-    // Connecting the backend
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/logout`,
-      {},
-      { withCredentials: true }
-    );
-    return response.data;
-  }
-);
+export const logoutUser = createAsyncThunk("/auth/logout", async (formData) => {
+  // Connecting the backend
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+    {},
+    { withCredentials: true }
+  );
+  return response.data;
+});
 
-export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
+
+// Code changed here
+export const checkAuth = createAsyncThunk("/auth/checkauth", 
+  // The token will be received from the "App.jsx"
+  async (token) => {
   const response = await axios.get(
     `${import.meta.env.VITE_API_URL}/api/auth/check-auth`,
     {
-      withCredentials: true,
       headers: {
+        Authorization:`Bearer ${token}`,
         "Cache-Control": "no-store,no-cache,must-revalidate,proxy-revalidate",
-        Expires: "0",
       },
     }
   );
@@ -75,16 +68,20 @@ const authSlice = createSlice({
   name: "auth", // this name will be used in the store.js
   initialState,
   reducers: {
-    // reducer => functions that change the state
-    // setUser will be a function that can update User and isAuthenticated based on data
     setUser: (state, action) => {
       state.user = action.payload.user;
       state.isAuthenticated = !!action.payload;
     },
+
+    // Code changed here
+    // When we logout, we are going to delete it
+    resetTokenAndCredentials:(state)=>{
+      state.isAuthenticated = false,
+      state.user=null,
+      state.token=null
+    }
   },
-  // When we get the data from the backend, we need to update it in the state
   extraReducers: (builder) => {
-    // When we are getting the data => pending, when we get => fulfilled, we we didn't get => rejected
     builder
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
@@ -102,18 +99,27 @@ const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
       })
+      
+      // Code changed here
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action?.payload?.success ? action.payload.user : null;
         state.isAuthenticated = action?.payload.success ? true : false;
+        state.token = action.payload.token;
 
-        // ✅ save to localStorage
+        // ✅ save the userInfo to localStorage
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+
+        // save the cookie token to sessionStorage
+        sessionStorage.setItem("token", JSON.stringify(action.payload.token));
       })
+      
+      // Code changed here
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        state.token = null;
       })
       .addCase(checkAuth.pending, (state) => {
         state.isLoading = true;
@@ -136,5 +142,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser,resetTokenAndCredentials } = authSlice.actions;
 export default authSlice.reducer; // authSlice.reducer: will be added to the Redux store
