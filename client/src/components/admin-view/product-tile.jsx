@@ -33,7 +33,7 @@ function AdminProductTile({
             ) : null}
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between items-center">
+        <CardFooter className="flex justify-between items-center gap-4">
           <Button
             onClick={() => {
               setOpenCreateProductsDialog(true);

@@ -52,17 +52,18 @@ function AdminDashboard() {
         isCustomStyling={true}
         // isEditMode={currentEditedId !== null}
       />
-      <Button onClick={handleUploadFeatureImage} className="mt-5 w-[80dvw]">
+      <Button onClick={handleUploadFeatureImage} className="mt-5 lg:w-[80dvw] w-full">
         Upload
       </Button>
+
       <div className="flex flex-row gap-8 mt-16 flex-wrap justify-between">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((featureImgItem) => (
             
-              <div className="relative flex flex-col gap-y-0.5 w-full aspect-[211/35]">
+              <div className="relative flex flex-col gap-y-0.5 w-full lg:aspect-[211/35">
                 <img
                   src={featureImgItem.image}
-                  className="w-full rounded-t-lg"
+                  className="w-full rounded-t-lg max-h-lg"
                   // className="w-full aspect-[211/35] object-cover rounded-t-lg"
 
                   />

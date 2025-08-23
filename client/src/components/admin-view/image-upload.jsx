@@ -57,7 +57,7 @@ function ProductImageUpload({
   return (
 
     // Day 24
-    <div className={` mt-4 ${isCustomStyling ? "w-[80dvw]" : "max-w-md mx-auto"}`}>
+    <div className={` mt-4 ${isCustomStyling ? "lg:w-[80dvw]" : "max-w-md mx-auto"}`}>
       <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
       <div
         onDragOver={handleDragOver}

@@ -31,7 +31,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     setRating(getRating);
   }
 
-  console.log(user)
+  console.log(user);
   function handleAddReview() {
     dispatch(
       addReview({
@@ -44,8 +44,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     ).then((data) => {
       // After the review is added, it will update and show it
       if (data?.payload?.success) {
-        setRating(0)
-        setReviewMsg("")
+        setRating(0);
+        setReviewMsg("");
         dispatch(getReviews(productDetails?._id));
         toast.success("Review added successfully");
       }
@@ -101,23 +101,22 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
     if (productDetails !== null) dispatch(getReviews(productDetails?._id));
   }, [productDetails]);
 
-  
   // Day 22 => Average Review Section
-    const averageReview = reviews && reviews.length > 0 ? 
-      reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
-      reviews.length : 0 ;
+  const averageReview =
+    reviews && reviews.length > 0
+      ? reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /
+        reviews.length
+      : 0;
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
-        <div className="relative overflow-hidden rounded-lg">
+      <DialogContent className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-8 sm:p-12 max-w-[80vw] sm:max-w-[80vw] lg:max-w-[70vw] rounded-md">
+        <div className="w-full flex justify-center items-center">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            width={600}
-            height={600}
-            className="aspect-square w-full object-cover"
-          ></img>
+            className="w-full max-w-[90px] sm:max-w-[500px] md:max-w-[600px] lg:w-1/2 h-auto rounded-lg object-cover"
+          />
         </div>
 
         <div className="">
@@ -149,9 +148,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           {/* Product Review Details */}
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-0.5">
-              <StarRatingComponent rating={averageReview}/>
+              <StarRatingComponent rating={averageReview} />
             </div>
-            <span className="text-muted-foreground">{averageReview.toFixed(1)}</span>
+            <span className="text-muted-foreground">
+              {averageReview.toFixed(1)}
+            </span>
           </div>
           <div className="mt-5 mb-5">
             {productDetails?.totalStock === 0 ? (
@@ -183,7 +184,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                 reviews.map((reviewItem) => (
                   <div className="flex gap-4">
                     <Avatar className="w-10 h-10 border">
-                      <AvatarFallback>{reviewItem?.userName?.charAt(0).toUpperCase()}</AvatarFallback>
+                      <AvatarFallback>
+                        {reviewItem?.userName?.charAt(0).toUpperCase()}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="grid gap-1">
                       <div className="flex items-center gap-2">
@@ -191,7 +194,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                       </div>
 
                       <div className="flex items-center gap-0.5">
-                       <StarRatingComponent rating={reviewItem?.reviewValue}/>
+                        <StarRatingComponent rating={reviewItem?.reviewValue} />
                       </div>
                       <p className="text-muted-foreground">
                         {reviewItem?.reviewMessage}
@@ -202,7 +205,6 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               ) : (
                 <h1>No Reviews Yet</h1>
               )}
-            
             </div>
 
             {/* Day 22  */}

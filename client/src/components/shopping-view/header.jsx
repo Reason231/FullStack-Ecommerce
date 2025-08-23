@@ -25,9 +25,12 @@ import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
 
-function MenuItems() {
+{
+  /* code changed here for "closing the sidebar after click in the mobile" */
+}
+function MenuItems({ closeSheet }) {
   // Day 19
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -50,6 +53,9 @@ function MenuItems() {
           new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
         )
       : navigate(getCurrentMenuItem.path);
+
+    // ✅ Close sheet after clicking
+    closeSheet?.();
   }
 
   return (
@@ -76,21 +82,19 @@ function HeaderRightContent() {
 
   // code changed here
   function handleLogout() {
-    dispatch(resetTokenAndCredentials())
-    sessionStorage.clear()
-    navigate("/auth/login")
-    toast("Logged Out Successfully")
+    dispatch(resetTokenAndCredentials());
+    sessionStorage.clear();
+    navigate("/auth/login");
+    toast("Logged Out Successfully");
   }
 
   useEffect(() => {
     dispatch(fetchCartItems(user?.id));
   }, [dispatch]);
 
-
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
-
         {/* Day 19 */}
         <Button
           onClick={() => setOpenCartSheet(true)}
@@ -143,6 +147,9 @@ function HeaderRightContent() {
 function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
+  // code changed here for "closing the sidebar after click in the mobile"
+  const [openMenuSheet, setOpenMenuSheet] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
@@ -150,7 +157,9 @@ function ShoppingHeader() {
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
         </Link>
-        <Sheet>
+
+        {/* code changed here for "closing the sidebar after click in the mobile" */}
+        <Sheet open={openMenuSheet} onOpenChange={setOpenMenuSheet}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
               <Menu className="h-6 w-6" />
@@ -158,7 +167,8 @@ function ShoppingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
+            {/* code changed here for "closing the sidebar after click in the mobile" */}
+            <MenuItems closeSheet={() => setOpenMenuSheet(false)} />
             <HeaderRightContent />
           </SheetContent>
         </Sheet>

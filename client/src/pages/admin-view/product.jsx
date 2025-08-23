@@ -118,13 +118,13 @@ export function AdminProducts() {
 
   return (
     <div className="w-full">
-      <div className="mb-5 flex justify-end">
+      <div className="mb-10 flex justify-end">
         <Button onClick={() => setOpenCreateProductsDialog(true)}>
           Add New Product
         </Button>
       </div>
       <Fragment>
-        <div className="grid gap-2 md:grid-cols-3 lg:grid-cols-5 sm:grid-cols-2">
+        <div className="grid gap-y-8 gap-x-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 sm:grid-cols-2">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <AdminProductTile
