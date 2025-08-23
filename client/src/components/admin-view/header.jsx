@@ -3,6 +3,7 @@ import { Button } from "../ui/button"
 import { LogOut, Menu } from 'lucide-react';
 import { logoutUser, resetTokenAndCredentials } from "@/store/auth-slice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function AdminHeader({setOpen}){
     
@@ -13,6 +14,7 @@ function AdminHeader({setOpen}){
            dispatch(resetTokenAndCredentials())
             sessionStorage.clear()
             navigate("/auth/login")
+            toast("Logged Out Successfully")
     }
 
     return <header className="flex items-center justify-between px-4 py-3 bg-background border-b">

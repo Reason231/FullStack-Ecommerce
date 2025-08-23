@@ -23,6 +23,7 @@ import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
+import { toast } from "sonner";
 
 function MenuItems() {
   // Day 19
@@ -78,6 +79,7 @@ function HeaderRightContent() {
     dispatch(resetTokenAndCredentials())
     sessionStorage.clear()
     navigate("/auth/login")
+    toast("Logged Out Successfully")
   }
 
   useEffect(() => {
