@@ -91,3 +91,12 @@ f. Click on "Deploy Static Site"
 
 ## Finally
 - Go to the frontend "static" link to see the page => https://fullstack-ecommerce-1-bned.onrender.com/
+
+
+## Project Overview for C.V 
+- Built a full-stack e-commerce app (React + Redux Toolkit, Node/Express, MongoDB).
+- Implemented product CRUD with Cloudinary uploads and admin dashboard.
+- Added advanced filtering, search, and review system (buyers-only guard).
+- Integrated PayPal checkout (approval + capture) and order lifecycle management.
+- Designed REST APIs with Mongoose models; protected routes with JWT.
+- Deployed on Render, CI build, environment-based config.

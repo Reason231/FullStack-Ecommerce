@@ -73,8 +73,8 @@ const loginUser = async (req, res) => {
         email: checkUser.email,
         userName: checkUser.userName,
       },
-      `CLIENT_SECRET_KEY`,
-      { expiresIn: "60mins" }
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
     );
 
     // Here is the code has been changed for the cookie
